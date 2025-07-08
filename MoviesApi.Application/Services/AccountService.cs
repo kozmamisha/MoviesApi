@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MoviesApi.Core.Entities;
+using MoviesApi.Infrastructure;
 using MoviesApi.Persistence.Repositories;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoviesApi.Application.Services
 {
-    public class AccountService(AccountRepository accountRepository)
+    public class AccountService(AccountRepository accountRepository, JwtService jwtService)
     {
         public void Register(string userName, string firstName, string password)
         {
@@ -26,7 +27,7 @@ namespace MoviesApi.Application.Services
             accountRepository.Add(account);
         }
 
-        public void Login(string userName, string password)
+        public string Login(string userName, string password)
         {
             var account = accountRepository.GetByUserName(userName);
             var result = new PasswordHasher<AccountEntity>()
@@ -34,7 +35,7 @@ namespace MoviesApi.Application.Services
 
             if (result == PasswordVerificationResult.Success)
             {
-                
+                return jwtService.GenerateToken(account);
             } else
             {
                 throw new Exception("Unauthorized");

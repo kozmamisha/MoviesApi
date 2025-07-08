@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
+﻿
+
 using Microsoft.AspNetCore.Mvc;
 using MoviesApi.Application.Services;
 using MoviesApi.Models;
@@ -19,8 +20,8 @@ namespace MoviesApi.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            //accountService.Login(request.UserName, request.Password);
-            return Ok();
+            var token = accountService.Login(request.UserName, request.Password);
+            return Ok(token);
         }
     }
 }
