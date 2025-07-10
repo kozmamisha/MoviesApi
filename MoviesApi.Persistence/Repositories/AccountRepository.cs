@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MoviesApi.Core.Entities.AccountEntity;
 
 namespace MoviesApi.Persistence.Repositories
 {
@@ -20,6 +21,11 @@ namespace MoviesApi.Persistence.Repositories
         {
             Accounts.TryGetValue(userName, out var account);
             return account;
+        }
+
+        public ICollection<Permission> GetPermissionByUserName(string userNameValue)
+        {
+            return GetByUserName(userNameValue).Permissions;
         }
     }
 }

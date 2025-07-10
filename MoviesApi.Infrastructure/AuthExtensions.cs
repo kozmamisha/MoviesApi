@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -16,7 +17,18 @@ namespace MoviesApi.Infrastructure
         {
             var authSettings = configuration.GetSection(nameof(AuthSettings)).Get<AuthSettings>();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddSingleton<IAuthorizationHandler, PermissionRequirementsHandler>();
+
+            services
+                .AddAuthorization(x =>
+                {
+                    x.AddPolicy("ForPremiumUsers", builder => builder.RequireClaim("Status", "Premium"));
+                    x.AddPolicy(Permissions.Read, builder => builder
+                        .Requirements.Add(new PermissionRequirements(Permissions.Read)));                    
+                    x.AddPolicy(Permissions.Delete, builder => builder
+                        .Requirements.Add(new PermissionRequirements(Permissions.Delete)));
+                })
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters

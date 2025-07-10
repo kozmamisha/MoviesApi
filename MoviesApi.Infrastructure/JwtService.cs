@@ -17,9 +17,11 @@ namespace MoviesApi.Infrastructure
         {
             var claims = new List<Claim>
             {
-                new Claim("userName", account.UserName),
+                new Claim(ClaimTypes.NameIdentifier, account.UserName),
                 new Claim("firstName", account.FirstName),
                 new Claim("Id", account.Id.ToString()),
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim("Status", "Premium"),
             };
 
             var jwtToken = new JwtSecurityToken(

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MoviesApi.Core.Entities.AccountEntity;
 
 namespace MoviesApi.Application.Services
 {
@@ -18,7 +19,14 @@ namespace MoviesApi.Application.Services
             {
                 UserName = userName,
                 FirstName = firstName,
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid(),
+                Permissions = new List<Permission>
+                {
+                    new Permission 
+                    { 
+                        Name = "Delete" 
+                    }
+                }
             };
 
             var hashedPassword = new PasswordHasher<AccountEntity>().HashPassword(account, password);
