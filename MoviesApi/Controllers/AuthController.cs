@@ -21,6 +21,10 @@ namespace MoviesApi.Controllers
         public IActionResult Login([FromBody] LoginRequest request)
         {
             var token = accountService.Login(request.UserName, request.Password);
+            HttpContext.Response.Cookies.Append("token", token, new CookieOptions
+            {
+                HttpOnly = true
+            });
             return Ok(token);
         }
     }

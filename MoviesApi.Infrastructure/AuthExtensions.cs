@@ -19,7 +19,6 @@ namespace MoviesApi.Infrastructure
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = false,
@@ -27,6 +26,16 @@ namespace MoviesApi.Infrastructure
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authSettings.SecretKey))
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            context.Token = context.Request.Cookies["token"];
+
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
