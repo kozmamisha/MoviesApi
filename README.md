@@ -35,7 +35,7 @@ Built with **Entity Framework Core**, **JWT Authentication**, and **Clean Archit
 
 ### ⚙️ Installation
 ```bash
-git clone https://github.com/yourname/MoviesApi.git
+git clone https://github.com/kozmamisha/MoviesApi.git
 cd MoviesApi
 dotnet build
 ```
