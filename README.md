@@ -1,7 +1,7 @@
 # Movies API
 
 A RESTful **ASP.NET Core 9 Web API** for managing movies list.
-Built with **Entity Framework Core**, **JWT Authentication**, and **Clean Architecture** principles. 
+Built with **Entity Framework Core**, **JWT Authentication**, and **Clean Architecture** principles.
 
 ---
 
